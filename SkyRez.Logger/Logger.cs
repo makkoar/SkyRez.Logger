@@ -10,12 +10,21 @@ public static class Logger
     private static ELogLevel minLogLevel = ELogLevel.All;
     private static bool useExactLevels = false;
 
+    private static string? customLogsDirectory;
+
     private static string LogsDirectory =>
+        customLogsDirectory ??
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PasswordManager", "Logs");
 
     public static bool IsLoggingToFileEnabled => !string.IsNullOrEmpty(logFilePath);
 
-    public static void Initialize(ELogLevel logLevel = ELogLevel.All, bool exact = false)
+    public static void Initialize(ELogLevel logLevel = ELogLevel.All, bool exact = false) => 
+        InitializeInternal(logLevel, exact, null);
+
+    public static void Initialize(string logsDirectory, ELogLevel logLevel = ELogLevel.All, bool exact = false) => 
+        InitializeInternal(logLevel, exact, logsDirectory);
+
+    private static void InitializeInternal(ELogLevel logLevel, bool exact, string? logsDirectory)
     {
         lock (@lock)
         {
@@ -23,6 +32,7 @@ public static class Logger
 
             minLogLevel = logLevel;
             useExactLevels = exact;
+            customLogsDirectory = logsDirectory;
 
             string logFileName = $"{DateTime.Now:dd.MM.yyyy_HH-mm-ss}.log";
             logFilePath = Path.Combine(LogsDirectory, logFileName);

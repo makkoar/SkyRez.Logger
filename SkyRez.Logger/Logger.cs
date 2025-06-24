@@ -16,7 +16,7 @@ public static class Logger
     private static string? customLogsDirectory;
 
     private static string LogsDirectory =>
-        customLogsDirectory ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Path.GetFileNameWithoutExtension(AppDomain.CurrentDomain.FriendlyName), "Logs");
+        customLogsDirectory ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppDomain.CurrentDomain.FriendlyName, "Logs");
 
     public static bool IsLoggingToFileEnabled => !string.IsNullOrEmpty(logFilePath);
 

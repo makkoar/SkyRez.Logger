@@ -4,8 +4,11 @@ public static class Logger
 {
     private static bool isInitialized = false;
     public static bool IsInitialized => isInitialized;
-
+#if NET9_0_OR_GREATER
+    private static readonly Lock @lock = new();
+#else
     private static readonly object @lock = new();
+#endif
     private static string? logFilePath;
     private static ELogLevel minLogLevel = ELogLevel.All;
     private static bool useExactLevels = false;
@@ -13,15 +16,14 @@ public static class Logger
     private static string? customLogsDirectory;
 
     private static string LogsDirectory =>
-        customLogsDirectory ??
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PasswordManager", "Logs");
+        customLogsDirectory ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Path.GetFileNameWithoutExtension(AppDomain.CurrentDomain.FriendlyName), "Logs");
 
     public static bool IsLoggingToFileEnabled => !string.IsNullOrEmpty(logFilePath);
 
-    public static void Initialize(ELogLevel logLevel = ELogLevel.All, bool exact = false) => 
+    public static void Initialize(ELogLevel logLevel = ELogLevel.All, bool exact = false) =>
         InitializeInternal(logLevel, exact, null);
 
-    public static void Initialize(string logsDirectory, ELogLevel logLevel = ELogLevel.All, bool exact = false) => 
+    public static void Initialize(string logsDirectory, ELogLevel logLevel = ELogLevel.All, bool exact = false) =>
         InitializeInternal(logLevel, exact, logsDirectory);
 
     private static void InitializeInternal(ELogLevel logLevel, bool exact, string? logsDirectory)

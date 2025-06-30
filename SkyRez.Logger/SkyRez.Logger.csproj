@@ -1,9 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-    <Nullable>enable</Nullable>
-	<LangVersion>preview</LangVersion>
-  </PropertyGroup>
-
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageId>$(AssemblyName)</PackageId>
+		<Title>Logger (Логгер)</Title>
+		<Authors>Eonyx</Authors>
+		<Company>SkyRez</Company>
+		<Description>
+			Cross-platform library for logging with support for different log levels, extensibility, and integration in .NET applications. Supports .NET Standard 2.1 and higher.
+			Кроссплатформенная библиотека для логирования с поддержкой различных уровней логов, расширяемости и интеграции в .NET-приложения. Поддерживает .NET Standard 2.1 и выше.
+		</Description>
+		<RepositoryUrl>https://github.com/makkoar/SkyRez.Logger</RepositoryUrl>
+        <PackageTags>logging, logger, log, diagnostics, trace, debug, error, information, warning, cross-platform, .NET, library, логирование, логгер, журнал, диагностика, трассировка, отладка, ошибка, информация, предупреждение, кроссплатформенный, библиотека</PackageTags>
+		<ToolCommandName>$(TargetName)</ToolCommandName>
+		<AssemblyVersion>5.6.30.17</AssemblyVersion>
+		<FileVersion>5.6.30.17</FileVersion>
+		<VersionPrefix>5.6.30.17</VersionPrefix>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<LangVersion>preview</LangVersion>
+		<PackageOutputPath>..\bin\</PackageOutputPath>
+		<BaseOutputPath>..\bin\</BaseOutputPath>
+		<RootNamespace>SkyRez.Logger</RootNamespace>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryType>git</RepositoryType>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DocumentationFile>..\bin\$(AssemblyName).xml</DocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\bin\$(AssemblyName).xml">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 </Project>

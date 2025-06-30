@@ -1,13 +1,29 @@
 ﻿namespace SkyRez.Logger.Enums;
 
+/// <summary>Перечисление уровней логирования для управления фильтрацией и категоризацией сообщений.</summary>
+/// <remarks>Используется для задания минимального или точного уровня логирования в <see cref="Logger"/>.<br/>Поддерживает комбинирование флагов для одновременного выбора нескольких уровней.</remarks>
 [Flags]
 public enum ELogLevel : byte
 {
-    None        = 0,
-    Debug       = 1 << 0,
-    Verbose     = 1 << 1,
+    /// <summary>Не логировать сообщения.</summary>
+    /// <value>0.</value>
+    None = 0,
+    /// <summary>Логировать отладочные сообщения.<br/>Используется для детальной диагностики и трассировки выполнения.</summary>
+    /// <value>1.</value>
+    Debug = 1 << 0,
+    /// <summary>Логировать подробные сообщения.<br/>Используется для расширенного вывода информации, не предназначенной для обычного использования.</summary>
+    /// <value>2.</value>
+    Verbose = 1 << 1,
+    /// <summary>Логировать информационные сообщения.<br/>Используется для стандартных событий, не являющихся ошибками или предупреждениями.</summary>
+    /// <value>4.</value>
     Information = 1 << 2,
-    Warning     = 1 << 3,
-    Error       = 1 << 4,
-    All         = Debug | Verbose | Information | Warning | Error
+    /// <summary>Логировать предупреждения.<br/>Используется для сообщений о потенциальных проблемах, не приводящих к сбою.</summary>
+    /// <value>8.</value>
+    Warning = 1 << 3,
+    /// <summary>Логировать ошибки.<br/>Используется для сообщений о сбоях, исключениях и критических ошибках.</summary>
+    /// <value>16.</value>
+    Error = 1 << 4,
+    /// <summary>Логировать все сообщения.<br/>Включает Debug, Verbose, Information, Warning и Error.</summary>
+    /// <value>31.</value>
+    All = Debug | Verbose | Information | Warning | Error
 }

@@ -6,11 +6,7 @@ public static class Logger
 {
     /// <summary>Флаг, указывающий, инициализирован ли логгер.</summary>
     /// <value>True, если логгер инициализирован, иначе false.</value>
-    private static bool isInitialized = false;
-
-    /// <summary>Показывает, инициализирован ли логгер.</summary>
-    /// <value>True, если логгер инициализирован, иначе false.</value>
-    public static bool IsInitialized => isInitialized;
+    public static bool IsInitialized { get; private set; } = false;
 
 #if NET9_0_OR_GREATER
     /// <summary>Объект блокировки для обеспечения потокобезопасности.</summary>
@@ -77,7 +73,7 @@ public static class Logger
     {
         lock (@lock)
         {
-            if (isInitialized) return;
+            if (IsInitialized) return;
 
             minLogLevel = logLevel;
             useExactLevels = exact;
@@ -91,7 +87,7 @@ public static class Logger
                 _ = Directory.CreateDirectory(LogsDirectory);
 
             File.WriteAllText(logFilePath, $"--- Сессия логирования начата в {DateTime.Now} ---\r\n");
-            isInitialized = true;
+            IsInitialized = true;
 
             List<string> logFiles = [.. Directory.GetFiles(LogsDirectory, "*.log").OrderByDescending(File.GetCreationTime)];
             if ((uint)logFiles.Count >= maxLogFiles)
@@ -221,7 +217,7 @@ public static class Logger
     /// <remarks>Проверяет, инициализирован ли логгер и соответствует ли уровень фильтру.<br/>Потокобезопасно записывает сообщение в файл.</remarks>
     private static void Log(ELogLevel level, string source, string message)
     {
-        if (!isInitialized) return;
+        if (!IsInitialized) return;
 
         int flagCount = CountFlags(minLogLevel);
 
